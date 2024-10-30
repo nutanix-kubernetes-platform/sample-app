@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mero-app
+  namespace: mero-app
+  labels:
+    app: mero-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mero-app
+  template:
+    metadata:
+      labels:
+        app: mero-app
+    spec:
+      containers:
+      - name: mero-app
+        image: 2058615mangal/app:latest
+        ports:
+        - containerPort: 5000
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  namespace: mero-app
+  labels:
+    app: mero-app
+  name: mero-app
+spec:
+  ports:
+  - port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: mero-app
+  type: NodePort
